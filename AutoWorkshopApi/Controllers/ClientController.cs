@@ -1,4 +1,4 @@
-﻿namespace AutoWorkshopApi.Controllers
+﻿namespace AutoWorkshopApi.Controllers;
 using AutoWorkshopApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
