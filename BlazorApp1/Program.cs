@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-namespace AutoWorkshopClient
+namespace BlazorApp1
 {
     public class Program
     {
