@@ -19,6 +19,8 @@ namespace AutoWorkshopApi
             {
                 options.UseSqlite(builder.Configuration.GetConnectionString("SQLite"));
             });
+            builder.Services.AddScoped<JobEstimationService>();
+            builder.Services.AddRazorPages();
 
             var app = builder.Build();
 
