@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 [Route("api/[controller]")]
 [ApiController]
-public class JobController : ControllerBase
+public class JobsController : ControllerBase
 {
     private readonly AutoWorkshopContext _context;
 
-    public JobController(AutoWorkshopContext context)
+    public JobsController(AutoWorkshopContext context)
     {
         _context = context;
     }
