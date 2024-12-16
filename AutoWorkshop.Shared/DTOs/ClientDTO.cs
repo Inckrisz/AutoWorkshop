@@ -1,7 +1,8 @@
-﻿namespace AutoWorkshopApi.Models;
+﻿namespace AutoWorkshop.Shared.DTOs;
+
 using System.ComponentModel.DataAnnotations;
 
-public class Client
+public class ClientDTO
 {
     public int ClientId { get; set; }
 
@@ -15,8 +16,4 @@ public class Client
     [Required(ErrorMessage = "Email is required.")]
     [EmailAddress(ErrorMessage = "Invalid email format.")]
     public string Email { get; set; }
-
-    public ICollection<Job> Jobs { get; set; } = new List<Job>();
 }
-
-

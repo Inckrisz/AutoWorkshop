@@ -1,5 +1,5 @@
-﻿using AutoWorkshopApi.Models;
-
+﻿
+using AutoWorkshopApi.Models;
 public class JobEstimationService
 {
     public double CalculateEstimatedHours(Job job)

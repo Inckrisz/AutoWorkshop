@@ -1,4 +1,6 @@
 ﻿namespace AutoWorkshopApi.Models;
+
+using AutoWorkshop.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 
 public class Job
@@ -18,6 +20,7 @@ public class Job
     public int ManufactureYear { get; set; }  // Gyártási év
 
     [Required]
+    [EnumDataType(typeof(JobCategory))]
     public string Category { get; set; }  // Munka kategóriája (pl. Karosszéria)
 
     [Required]
@@ -28,6 +31,9 @@ public class Job
     public int Severity { get; set; }  // Hiba súlyossága
 
     [Required]
+    [EnumDataType(typeof(JobStatus))]
     public string Status { get; set; }  // Munka állapota
+
+    public Client Client { get; set; }
 }
 

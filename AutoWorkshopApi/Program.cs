@@ -22,6 +22,16 @@ namespace AutoWorkshopApi
             builder.Services.AddScoped<JobEstimationService>();
             builder.Services.AddRazorPages();
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()  // Allows any origin to access the API
+                          .AllowAnyMethod()  // Allows any HTTP method (GET, POST, etc.)
+                          .AllowAnyHeader(); // Allows any header
+                });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -30,7 +40,7 @@ namespace AutoWorkshopApi
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            app.UseCors("AllowAll");
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
@@ -40,5 +50,7 @@ namespace AutoWorkshopApi
 
             app.Run();
         }
+
+
     }
 }

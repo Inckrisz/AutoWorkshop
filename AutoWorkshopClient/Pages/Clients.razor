@@ -1,0 +1,53 @@
+﻿@* @inject HttpClient Http
+@page "/clients"
+@using AutoWorkshop.Shared.Models
+
+<h3>Clients</h3>
+
+<!-- HTML Table to Display Clients -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in clients)
+        {
+            <tr>
+                <td>@client.Name</td>
+                <td>@client.Address</td>
+                <td>@client.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Client> clients = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Make sure you're using the correct API URL here
+            clients = await Http.GetFromJsonAsync<List<Client>>("https://localhost:5001/api/clients");
+
+            if (clients == null || clients.Count == 0)
+            {
+                Console.WriteLine("No clients found");
+            }
+            else
+            {
+                Console.WriteLine($"Received {clients.Count} clients");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching clients: {ex.Message}");
+        }
+    }
+}
+ *@

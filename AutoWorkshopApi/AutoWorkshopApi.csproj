@@ -18,4 +18,11 @@
     <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AutoWorkshop.Shared\AutoWorkshop.Shared.csproj" />
+  </ItemGroup>
+
+
+
+
 </Project>
