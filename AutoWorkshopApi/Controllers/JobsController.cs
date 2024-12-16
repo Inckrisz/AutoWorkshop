@@ -107,7 +107,7 @@ namespace AutoWorkshopApi.Controllers
                 Category = category.ToString(),
                 Description = jobDTO.Description,
                 Severity = jobDTO.Severity,
-                Status = status.ToString()
+                Status = status
                 // No EstimatedCost here, as it's only needed in the DTO
             };
 
@@ -129,40 +129,63 @@ namespace AutoWorkshopApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<JobDTO>> UpdateJob(int id, JobDTO jobDTO)
         {
+            // Validate the request
             if (id != jobDTO.JobId || !ModelState.IsValid)
             {
                 return BadRequest("Invalid job data.");
             }
 
-            var job = await _jobRepository.GetByIdAsync(id);
+            // Check if the new ClientId exists in the database
+            //var clientExists = await _clientRepository.ExistsAsync(jobDTO.ClientId);
+            //if (!clientExists)
+            //{
+            //    return BadRequest($"Client with ID {jobDTO.ClientId} does not exist.");
+            //}
 
+            if (!Enum.TryParse<JobStatus>(jobDTO.Status, ignoreCase: true, out var status))
+            {
+                return BadRequest($"Invalid status value: {jobDTO.Status}");
+            }
+            // Fetch the existing job
+            var job = await _jobRepository.GetByIdAsync(id);
             if (job == null)
             {
                 return NotFound($"Job with ID {id} not found.");
             }
 
-            // Update the job details based on the jobDTO
+            // Update all fields with values from the DTO
+            job.JobId = jobDTO.JobId; // Allow JobId change if explicitly required
+            job.ClientId = jobDTO.ClientId;
             job.LicensePlate = jobDTO.LicensePlate;
             job.ManufactureYear = jobDTO.ManufactureYear;
             job.Category = jobDTO.Category;
-
-            // Assuming jobDTO.Description and jobDTO.Severity are strings or numbers, no change needed
             job.Description = jobDTO.Description;
             job.Severity = jobDTO.Severity;
+            job.Status = status;
 
-            // Ensure job.Status is updated correctly, assuming jobDTO.Status is a string
-            job.Status = Enum.TryParse<JobStatus>(jobDTO.Status, out var status) ? status.ToString() : "Unknown";
-
-            // Update the job in the repository
+            // Save the updated job to the database
             _jobRepository.Update(job);
             await _jobRepository.SaveChangesAsync();
 
-            // Calculate the EstimatedCost after the update
-            jobDTO.EstimatedCost = (decimal?)_jobEstimationService.CalculateEstimatedHours(jobDTO);
+            // Calculate the EstimatedCost based on the updated job details
+            var updatedJobDTO = new JobDTO
+            {
+                JobId = job.JobId,
+                ClientId = job.ClientId,
+                LicensePlate = job.LicensePlate,
+                ManufactureYear = job.ManufactureYear,
+                Category = job.Category,
+                Description = job.Description,
+                Severity = job.Severity,
+                Status = job.Status.ToString(),
+                EstimatedCost = (decimal?)_jobEstimationService.CalculateEstimatedHours(jobDTO)
+            };
 
-            // Return the updated jobDTO with the newly calculated EstimatedCost
-            return Ok(jobDTO);  // Return the updated DTO with the estimated cost
+            // Return the updated job details
+            return Ok(updatedJobDTO);
         }
+
+
 
 
 

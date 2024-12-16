@@ -2,8 +2,7 @@
 
 public enum JobStatus
 {
-    Pending,    // Függőben
-    InProgress, // Folyamatban
-    Completed,  // Befejezve
-    Cancelled   // Törölve
+    FelvettMunka,    // Függőben
+    ElvegzesAlatt,// Folyamatban
+    Befejezett  // Befejezve   // Törölve
 }

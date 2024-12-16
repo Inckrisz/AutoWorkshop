@@ -32,8 +32,40 @@ public class Job
 
     [Required]
     [EnumDataType(typeof(JobStatus))]
-    public string Status { get; set; }  // Munka állapota
+    public JobStatus Status { get; set; }  // Munka állapota
 
     public Client Client { get; set; }
+
+    private bool CanTransitionTo(JobStatus newStatus)
+    {
+        if (newStatus == Status)
+        {
+            return false; // Can't transition to the same status
+        }
+
+        // Check valid transitions
+        switch (Status)
+        {
+            case JobStatus.FelvettMunka:
+                return newStatus == JobStatus.ElvegzesAlatt;
+            case JobStatus.ElvegzesAlatt:
+                return newStatus == JobStatus.Befejezett;
+            case JobStatus.Befejezett:
+                return false; // No further transitions allowed after "Befejezett"
+            default:
+                return false;
+        }
+    }
+
+    // Method to update status, publicly accessible
+    public bool UpdateStatus(JobStatus newStatus)
+    {
+        if (CanTransitionTo(newStatus))
+        {
+            Status = newStatus;
+            return true;
+        }
+        return false;
+    }
 }
 
