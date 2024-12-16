@@ -1,5 +1,7 @@
 
 using AutoWorkshopApi.Mapping;
+using AutoWorkshopApi.Repositories.Base;
+using AutoWorkshopApi.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoWorkshopApi
@@ -24,6 +26,9 @@ namespace AutoWorkshopApi
             });
             builder.Services.AddScoped<JobEstimationService>();
             builder.Services.AddRazorPages();
+            builder.Services.AddScoped<IClientRepository, ClientRepository>();
+            builder.Services.AddScoped<IJobRepository, JobRepository>();
+
 
             builder.Services.AddCors(options =>
             {

@@ -1,10 +1,21 @@
-﻿
+﻿using AutoWorkshop.Shared.DTOs;
 using AutoWorkshopApi.Models;
+
 public class JobEstimationService
 {
     public double CalculateEstimatedHours(Job job)
     {
-        double categoryMultiplier = job.Category switch
+        return CalculateEstimatedHoursInternal(job.Category, job.ManufactureYear, job.Severity);
+    }
+
+    public double CalculateEstimatedHours(JobDTO jobDto)
+    {
+        return CalculateEstimatedHoursInternal(jobDto.Category, jobDto.ManufactureYear, jobDto.Severity);
+    }
+
+    private double CalculateEstimatedHoursInternal(string category, int manufactureYear, int severity)
+    {
+        double categoryMultiplier = category switch
         {
             "Karosszéria" => 3,
             "Motor" => 8,
@@ -13,7 +24,7 @@ public class JobEstimationService
             _ => 0
         };
 
-        double ageMultiplier = job.ManufactureYear switch
+        double ageMultiplier = manufactureYear switch
         {
             <= 5 => 0.5,
             <= 10 => 1,
@@ -21,7 +32,7 @@ public class JobEstimationService
             _ => 2
         };
 
-        double severityMultiplier = job.Severity switch
+        double severityMultiplier = severity switch
         {
             <= 2 => 0.2,
             <= 4 => 0.4,

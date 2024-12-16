@@ -1,41 +1,134 @@
-﻿namespace AutoWorkshopApi.Controllers;
-
+﻿using AutoWorkshop.Shared.DTOs;
 using AutoWorkshopApi.Models;
-
-//using AutoWorkshop.Shared.Models;
+using AutoWorkshopApi.Repositories;
+using AutoWorkshopApi.Repositories.Base;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
+namespace AutoWorkshopApi.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 public class ClientsController : ControllerBase
 {
-    private readonly AutoWorkshopContext _context;
+    private readonly IClientRepository _clientRepository;
 
-    public ClientsController(AutoWorkshopContext context)
+    public ClientsController(IClientRepository clientRepository)
     {
-        _context = context;
+        _clientRepository = clientRepository;
     }
 
-    // GET: api/Clients
+    // GET: api/Client
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Client>>> GetClients()
+    public async Task<ActionResult<IEnumerable<ClientDTO>>> GetClients()
     {
-        return await _context.Clients.ToListAsync();
+        var clients = await _clientRepository.GetAllAsync();
+        var clientDtos = clients.Select(client => new ClientDTO
+        {
+            
+            ClientId = client.ClientId,
+            Name = client.Name,
+            Address = client.Address,
+            Email = client.Email
+        }).ToList();
+
+        return Ok(clientDtos);
     }
 
-    // POST: api/Clients
+    // GET: api/Client/{id}
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ClientDTO>> GetClient(int id)
+    {
+        var client = await _clientRepository.GetClientWithJobsAsync(id);
+
+        if (client == null)
+        {
+            return NotFound();
+        }
+
+        var clientDto = new ClientDTO
+        {
+            ClientId = client.ClientId,
+            Name = client.Name,
+            Address = client.Address,
+            Email = client.Email
+        };
+
+        return Ok(clientDto);
+    }
+
+    // POST: api/Client
     [HttpPost]
-    public async Task<ActionResult<Client>> PostClient(Client client)
+    public async Task<ActionResult<ClientDTO>> CreateClient(ClientDTO clientDto)
     {
-        _context.Clients.Add(client);
-        await _context.SaveChangesAsync();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
 
-        return CreatedAtAction("GetClient", new { id = client.ClientId }, client);
+        var client = new Client
+        {
+            Name = clientDto.Name,
+            Address = clientDto.Address,
+            Email = clientDto.Email
+        };
+
+
+
+
+
+
+
+        await _clientRepository.AddAsync(client);
+        await _clientRepository.SaveChangesAsync();
+
+        clientDto.ClientId = client.ClientId;
+
+        return CreatedAtAction(nameof(GetClient), new { id = client.ClientId }, clientDto);
     }
 
-    // PUT, DELETE műveleteket is hozzáadhatunk a CRUD teljesítéséhez
-}
+    // PUT: api/Client/{id}
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateClient(int id, ClientDTO clientDto)
+    {
+        if (id != clientDto.ClientId)
+        {
+            return BadRequest("Client ID mismatch.");
+        }
 
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var existingClient = await _clientRepository.GetByIdAsync(id);
+        if (existingClient == null)
+        {
+            return NotFound();
+        }
+
+        existingClient.Name = clientDto.Name;
+        existingClient.Address = clientDto.Address;
+        existingClient.Email = clientDto.Email;
+
+        _clientRepository.Update(existingClient);
+        await _clientRepository.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    // DELETE: api/Client/{id}
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteClient(int id)
+    {
+        var client = await _clientRepository.GetByIdAsync(id);
+        if (client == null)
+        {
+            return NotFound();
+        }
+
+        _clientRepository.Delete(client);
+        await _clientRepository.SaveChangesAsync();
+
+        return NoContent();
+    }
+}

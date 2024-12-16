@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoWorkshopApi.Migrations
 {
     [DbContext(typeof(AutoWorkshopContext))]
-    [Migration("20241118194308_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241216140754_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,7 +26,6 @@ namespace AutoWorkshopApi.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -35,7 +34,6 @@ namespace AutoWorkshopApi.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.HasKey("ClientId");
@@ -76,7 +74,25 @@ namespace AutoWorkshopApi.Migrations
 
                     b.HasKey("JobId");
 
+                    b.HasIndex("ClientId");
+
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("AutoWorkshopApi.Models.Job", b =>
+                {
+                    b.HasOne("AutoWorkshopApi.Models.Client", "Client")
+                        .WithMany("Jobs")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+                });
+
+            modelBuilder.Entity("AutoWorkshopApi.Models.Client", b =>
+                {
+                    b.Navigation("Jobs");
                 });
 #pragma warning restore 612, 618
         }
