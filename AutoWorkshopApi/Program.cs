@@ -1,4 +1,5 @@
 
+using AutoWorkshopApi.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutoWorkshopApi
@@ -12,6 +13,8 @@ namespace AutoWorkshopApi
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); // Automatically scans all assemblies
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
