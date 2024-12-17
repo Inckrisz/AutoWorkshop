@@ -22,6 +22,17 @@ public class JobService : IJobService
     {   
         return await _httpClient.GetFromJsonAsync<JobDTO>($"jobs/{jobId}");
     }
+    public async Task<double> EstimateCostAsync(JobDTO job)
+    {
+        var response = await _httpClient.PostAsJsonAsync("jobs/estimateCost", job);
+
+        if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<double>();
+        }
+
+        throw new Exception("Failed to estimate cost: " + await response.Content.ReadAsStringAsync());
+    }
 
     public async Task AddAsync(JobDTO job)
     {

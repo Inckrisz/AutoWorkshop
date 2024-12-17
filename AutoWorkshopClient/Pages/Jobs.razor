@@ -53,17 +53,29 @@ else
                     <td>@job.EstimatedCost</td>
                     
                     <td>
+                        <button class="btn btn-danger btn-sm" @onclick="() => UpdateJob(job.JobId)">Update</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteJob(job.JobId)">Delete</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+
+    <button class="btn btn-danger btn-sm" @onclick="() => ViewAdd()">Add</button>
 }
 
 @code {
     private List<JobDTO>? jobs;
 
+    private void UpdateJob(int jobId)
+    {
+        NavigationManager.NavigateTo($"jobs/update/{jobId}");
+    }
+
+    private void ViewAdd()
+    {
+        NavigationManager.NavigateTo("jobs/add");
+    }
 
 
     protected override async Task OnInitializedAsync()

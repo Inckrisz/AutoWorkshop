@@ -1,5 +1,98 @@
-﻿<h3>JobUpdate</h3>
+﻿@page "/jobs/update/{jobId:int}"
+@using AutoWorkshop.AutoWorkshopClient.Services
+@using AutoWorkshop.Shared.DTOs
+@inject IJobService JobService
+@inject NavigationManager NavigationManager
+
+<h3>Update Job</h3>
+
+@if (jobToUpdate == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="@jobToUpdate" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label>Client ID</label>
+            <InputNumber class="form-control" @bind-Value="jobToUpdate.ClientId" />
+        </div>
+
+        <div class="form-group">
+            <label>License Plate</label>
+            <InputText class="form-control" @bind-Value="jobToUpdate.LicensePlate" />
+        </div>
+
+        <div class="form-group">
+            <label>Manufacture Year</label>
+            <InputNumber class="form-control" @bind-Value="jobToUpdate.ManufactureYear" />
+        </div>
+
+        <div class="form-group">
+            <label>Category</label>
+            <InputText class="form-control" @bind-Value="jobToUpdate.Category" />
+        </div>
+
+        <div class="form-group">
+            <label>Description</label>
+            <InputTextArea class="form-control" @bind-Value="jobToUpdate.Description" />
+        </div>
+
+        <div class="form-group">
+            <label>Severity</label>
+            <InputNumber class="form-control" @bind-Value="jobToUpdate.Severity" />
+        </div>
+
+        <div class="form-group">
+            <label>Status</label>
+            <InputText class="form-control" @bind-Value="jobToUpdate.Status" />
+        </div>
+
+        
+
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Update Job</button>
+            <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+        </div>
+    </EditForm>
+}
 
 @code {
+    [Parameter]
+    public int jobId { get; set; }
 
+    private JobDTO? jobToUpdate;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            jobToUpdate = await JobService.GetAsync(jobId);
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error loading job: {ex.Message}");
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            await JobService.UpdateAsync(jobToUpdate!);
+            NavigationManager.NavigateTo("/jobs");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error updating job: {ex.Message}");
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/jobs");
+    }
 }

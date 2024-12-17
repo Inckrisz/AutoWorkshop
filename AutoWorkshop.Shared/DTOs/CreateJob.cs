@@ -4,7 +4,7 @@ using AutoWorkshop.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-public class JobDTO
+public class CreateJob
 {
     public int JobId { get; set; }
 
@@ -34,5 +34,5 @@ public class JobDTO
     [EnumDataType(typeof(JobStatus))]
     public String Status { get; set; }
 
-    public double EstimatedCost { get; set; }
+    
 }

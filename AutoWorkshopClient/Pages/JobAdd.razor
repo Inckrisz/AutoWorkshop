@@ -1,5 +1,85 @@
-﻿<h3>JobAdd</h3>
+﻿@page "/jobs/add"
+@using AutoWorkshop.AutoWorkshopClient.Services
+@using AutoWorkshop.Shared.DTOs
+@inject IJobService JobService
+@inject NavigationManager NavigationManager
+
+<h3>Add Job</h3>
+
+<EditForm Model="@newJob" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Client ID</label>
+        <InputNumber class="form-control" @bind-Value="newJob.ClientId" />
+    </div>
+
+    <div class="form-group">
+        <label>License Plate</label>
+        <InputText class="form-control" @bind-Value="newJob.LicensePlate" />
+    </div>
+
+    <div class="form-group">
+        <label>Manufacture Year</label>
+        <InputNumber class="form-control" @bind-Value="newJob.ManufactureYear" />
+    </div>
+
+    <div class="form-group">
+        <label>Category</label>
+        <InputText class="form-control" @bind-Value="newJob.Category" />
+    </div>
+
+    <div class="form-group">
+        <label>Description</label>
+        <InputTextArea class="form-control" @bind-Value="newJob.Description" />
+    </div>
+
+    <div class="form-group">
+        <label>Severity</label>
+        <InputNumber class="form-control" @bind-Value="newJob.Severity" />
+    </div>
+
+    <div class="form-group">
+        <label>Status</label>
+        <InputText class="form-control" @bind-Value="newJob.Status" />
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">Add Job</button>
+        <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
 
 @code {
+    private JobDTO newJob = new();
+    private double estimatedCost = 0;
 
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            estimatedCost = await JobService.EstimateCostAsync(newJob);
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error estimating cost: {ex.Message}");
+        }
+        try
+        {
+            newJob.EstimatedCost = estimatedCost;
+            await JobService.AddAsync(newJob);
+            NavigationManager.NavigateTo("/jobs");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error adding job: {ex.Message}");
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/jobs");
+    }
 }

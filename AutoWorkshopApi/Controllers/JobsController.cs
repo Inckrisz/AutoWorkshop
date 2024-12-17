@@ -22,6 +22,47 @@ namespace AutoWorkshopApi.Controllers
             _jobEstimationService = jobEstimationService;
         }
 
+        [HttpPost("estimateCost")]
+        public IActionResult EstimateCost([FromBody] JobDTO job)
+        {
+            try
+            {
+                double estimatedCost =  _jobEstimationService.CalculateEstimatedHours(job);
+                return Ok(estimatedCost);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        // GET: api/Client/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ClientDTO>> GetJob(int id)
+        {
+            var job = await _jobRepository.GetByIdAsync(id);
+
+            if (job == null)
+            {
+                return NotFound();
+            }
+
+            var jobDTO = new JobDTO
+            {
+                JobId = job.JobId,
+                ClientId = job.ClientId,
+                LicensePlate = job.LicensePlate,
+                ManufactureYear = job.ManufactureYear,
+                Category = job.Category.ToString(),
+                Description = job.Description,
+                Severity = job.Severity,
+                Status = job.Status.ToString(),
+                EstimatedCost = _jobEstimationService.CalculateEstimatedHours(job)
+            };
+
+            return Ok(jobDTO);
+        }
+
         // GET: api/jobs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<JobDTO>>> GetJobs()
@@ -114,14 +155,16 @@ namespace AutoWorkshopApi.Controllers
             job.UpdateStatus(status);
 
 
-            // Calculate the EstimatedCost and assign it to the DTO
-            jobDTO.JobId = job.JobId;
-            jobDTO.EstimatedCost = _jobEstimationService.CalculateEstimatedHours(job);
+            
 
             await _jobRepository.AddAsync(job);
             await _jobRepository.SaveChangesAsync();
 
-          
+            // Calculate the EstimatedCost and assign it to the DTO
+            jobDTO.JobId = job.JobId;
+            jobDTO.EstimatedCost = _jobEstimationService.CalculateEstimatedHours(job);
+
+
 
             // Return the created job as DTO
             return CreatedAtAction(nameof(GetJobsByClientId), new { clientId = job.ClientId }, jobDTO);
@@ -151,10 +194,18 @@ namespace AutoWorkshopApi.Controllers
             }
 
             // Validate status transition
-            if (!IsValidStatusTransition(job.Status, newStatus))
+            if (job.Status != newStatus)
             {
-                return BadRequest($"Invalid status transition from '{job.Status}' to '{newStatus}'.");
+                bool statusUpdated = job.UpdateStatus(newStatus);
+                if (!statusUpdated)
+                {
+                    return BadRequest($"Invalid status transition from '{job.Status}' to '{jobDTO.Status}'.");
+                }
             }
+            //if (!IsValidStatusTransition(job.Status, newStatus))
+            //{
+            //    return BadRequest($"Invalid status transition from '{job.Status}' to '{newStatus}'.");
+            //}
 
             // Update job fields
             job.ClientId = jobDTO.ClientId;

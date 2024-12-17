@@ -43,7 +43,7 @@ public class Job
     {
         if (newStatus == Status)
         {
-            return false; // Can't transition to the same status
+            return true; 
         }
 
         // Check valid transitions
