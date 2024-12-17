@@ -25,10 +25,10 @@ public class JobEstimationService
 
         double categoryMultiplier = category switch
         {
-            "Karosszéria" => 3,
+            "Karosszeria" => 3,
             "Motor" => 8,
-            "Futómű" => 6,
-            "Fékberendezés" => 4,
+            "Futomu" => 6,
+            "Fekberendezes" => 4,
             _ => 0
         };
 
