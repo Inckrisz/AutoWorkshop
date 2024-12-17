@@ -1,6 +1,7 @@
 ﻿namespace AutoWorkshopApi.Models;
 
 using AutoWorkshop.Shared.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -69,5 +70,7 @@ public class Job
         }
         return false;
     }
+
+    
 }
 

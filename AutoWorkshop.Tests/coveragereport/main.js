@@ -221,16 +221,16 @@ var assemblies = [
   {
     "name": "AutoWorkshop.Shared",
     "classes": [
-      { "name": "AutoWorkshop.Shared.DTOs.ClientDTO", "rp": "AutoWorkshop.Shared_ClientDTO.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshop.Shared.DTOs.ClientWithJobsDTO", "rp": "AutoWorkshop.Shared_ClientWithJobsDTO.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshop.Shared.DTOs.JobDTO", "rp": "AutoWorkshop.Shared_JobDTO.html", "cl": 0, "ucl": 9, "cal": 9, "tl": 37, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshop.Shared.DTOs.ClientDTO", "rp": "AutoWorkshop.Shared_ClientDTO.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 19, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshop.Shared.DTOs.ClientWithJobsDTO", "rp": "AutoWorkshop.Shared_ClientWithJobsDTO.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshop.Shared.DTOs.JobDTO", "rp": "AutoWorkshop.Shared_JobDTO.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 37, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "AutoWorkshopApi",
     "classes": [
-      { "name": "AutoWorkshopApi.Controllers.ClientsController", "rp": "AutoWorkshopApi_ClientsController.html", "cl": 0, "ucl": 72, "cal": 72, "tl": 134, "cb": 0, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshopApi.Controllers.ClientsWithJobsController", "rp": "AutoWorkshopApi_ClientsWithJobsController.html", "cl": 0, "ucl": 31, "cal": 31, "tl": 83, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshopApi.Controllers.JobsController", "rp": "AutoWorkshopApi_JobsController.html", "cl": 0, "ucl": 111, "cal": 111, "tl": 203, "cb": 0, "tb": 32, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshopApi.Controllers.ClientsController", "rp": "AutoWorkshopApi_ClientsController.html", "cl": 68, "ucl": 4, "cal": 72, "tl": 134, "cb": 10, "tb": 12, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshopApi.Controllers.ClientsWithJobsController", "rp": "AutoWorkshopApi_ClientsWithJobsController.html", "cl": 31, "ucl": 0, "cal": 31, "tl": 55, "cb": 2, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshopApi.Controllers.JobsController", "rp": "AutoWorkshopApi_JobsController.html", "cl": 49, "ucl": 62, "cal": 111, "tl": 203, "cb": 13, "tb": 32, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "AutoWorkshopApi.Mapping.MappingProfile", "rp": "AutoWorkshopApi_MappingProfile.html", "cl": 0, "ucl": 23, "cal": 23, "tl": 38, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "AutoWorkshopApi.Migrations.AutoWorkshopContextModelSnapshot", "rp": "AutoWorkshopApi_AutoWorkshopContextModelSnapshot.html", "cl": 0, "ucl": 75, "cal": 75, "tl": 96, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "AutoWorkshopApi.Migrations.InitialCreate", "rp": "AutoWorkshopApi_InitialCreate.html", "cl": 0, "ucl": 126, "cal": 126, "tl": 169, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
@@ -238,14 +238,13 @@ var assemblies = [
       { "name": "AutoWorkshopApi.Migrations.InitialCreateasd", "rp": "AutoWorkshopApi_InitialCreateasd.html", "cl": 0, "ucl": 79, "cal": 79, "tl": 121, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "AutoWorkshopApi.Migrations.InitialCreatesd", "rp": "AutoWorkshopApi_InitialCreatesd.html", "cl": 0, "ucl": 79, "cal": 79, "tl": 121, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "AutoWorkshopApi.Migrations.InitialMigration", "rp": "AutoWorkshopApi_InitialMigration.html", "cl": 0, "ucl": 80, "cal": 80, "tl": 122, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshopApi.Models.Client", "rp": "AutoWorkshopApi_Client.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 24, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshopApi.Models.Job", "rp": "AutoWorkshopApi_Job.html", "cl": 3, "ucl": 23, "cal": 26, "tl": 73, "cb": 0, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshopApi.Models.Client", "rp": "AutoWorkshopApi_Client.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 24, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshopApi.Models.Job", "rp": "AutoWorkshopApi_Job.html", "cl": 21, "ucl": 5, "cal": 26, "tl": 76, "cb": 5, "tb": 8, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "AutoWorkshopApi.Program", "rp": "AutoWorkshopApi_Program.html", "cl": 0, "ucl": 35, "cal": 35, "tl": 71, "cb": 0, "tb": 2, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshopApi.Repositories.ClientRepository", "rp": "AutoWorkshopApi_ClientRepository.html", "cl": 0, "ucl": 9, "cal": 9, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshopApi.Repositories.JobRepository", "rp": "AutoWorkshopApi_JobRepository.html", "cl": 0, "ucl": 9, "cal": 9, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshopApi.Repositories.Repository<T>", "rp": "AutoWorkshopApi_Repository_1.html", "cl": 0, "ucl": 26, "cal": 26, "tl": 53, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshopApi.WeatherForecast", "rp": "AutoWorkshopApi_WeatherForecast.html", "cl": 0, "ucl": 4, "cal": 4, "tl": 13, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
-      { "name": "AutoWorkshopContext", "rp": "AutoWorkshopApi_AutoWorkshopContext.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshopApi.Repositories.ClientRepository", "rp": "AutoWorkshopApi_ClientRepository.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshopApi.Repositories.JobRepository", "rp": "AutoWorkshopApi_JobRepository.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 23, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshopApi.Repositories.Repository<T>", "rp": "AutoWorkshopApi_Repository_1.html", "cl": 26, "ucl": 0, "cal": 26, "tl": 53, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
+      { "name": "AutoWorkshopContext", "rp": "AutoWorkshopApi_AutoWorkshopContext.html", "cl": 10, "ucl": 0, "cal": 10, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
       { "name": "JobEstimationService", "rp": "AutoWorkshopApi_JobEstimationService.html", "cl": 34, "ucl": 3, "cal": 37, "tl": 55, "cb": 26, "tb": 26, "cm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "hc": [], "metrics": { } },
     ]},
 ];
@@ -261,34 +260,16 @@ var riskHotspotMetrics = [
 
 var riskHotspots = [
   {
-    "assembly": "AutoWorkshopApi", "class": "AutoWorkshopApi.Controllers.JobsController", "reportPath": "AutoWorkshopApi_JobsController.html", "methodName": "UpdateJob()", "methodShortName": "UpdateJob()", "fileIndex": 0, "line": 134,
-    "metrics": [
-      { "value": 110, "exceeded": true },
-      { "value": 10, "exceeded": false },
-    ]},
-  {
     "assembly": "AutoWorkshopApi", "class": "AutoWorkshopApi.Controllers.JobsController", "reportPath": "AutoWorkshopApi_JobsController.html", "methodName": "CreateJob()", "methodShortName": "CreateJob()", "fileIndex": 0, "line": 84,
     "metrics": [
-      { "value": 72, "exceeded": true },
+      { "value": 44, "exceeded": true },
       { "value": 8, "exceeded": false },
     ]},
   {
-    "assembly": "AutoWorkshopApi", "class": "AutoWorkshopApi.Controllers.ClientsController", "reportPath": "AutoWorkshopApi_ClientsController.html", "methodName": "UpdateClient()", "methodShortName": "UpdateClient()", "fileIndex": 0, "line": 92,
+    "assembly": "AutoWorkshopApi", "class": "AutoWorkshopApi.Controllers.JobsController", "reportPath": "AutoWorkshopApi_JobsController.html", "methodName": "UpdateJob()", "methodShortName": "UpdateJob()", "fileIndex": 0, "line": 134,
     "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
-    ]},
-  {
-    "assembly": "AutoWorkshopApi", "class": "AutoWorkshopApi.Controllers.JobsController", "reportPath": "AutoWorkshopApi_JobsController.html", "methodName": "IsValidStatusTransition(AutoWorkshop.Shared.Enums.JobStatus,AutoWorkshop.Shared.Enums.JobStatus)", "methodShortName": "IsValidStatusTransition(...)", "fileIndex": 0, "line": 179,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
-    ]},
-  {
-    "assembly": "AutoWorkshopApi", "class": "AutoWorkshopApi.Models.Job", "reportPath": "AutoWorkshopApi_Job.html", "methodName": "CanTransitionTo(AutoWorkshop.Shared.Enums.JobStatus)", "methodShortName": "CanTransitionTo(...)", "fileIndex": 0, "line": 42,
-    "metrics": [
-      { "value": 42, "exceeded": true },
-      { "value": 6, "exceeded": false },
+      { "value": 38, "exceeded": true },
+      { "value": 10, "exceeded": false },
     ]},
   {
     "assembly": "AutoWorkshopApi", "class": "JobEstimationService", "reportPath": "AutoWorkshopApi_JobEstimationService.html", "methodName": "CalculateEstimatedHoursInternal(System.String,System.Int32,System.Int32)", "methodShortName": "CalculateEstimatedHoursInternal(...)", "fileIndex": 0, "line": 17,

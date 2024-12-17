@@ -3,12 +3,12 @@ using AutoWorkshopApi.Models;
 
 public class JobEstimationService
 {
-    public double CalculateEstimatedHours(Job job)
+    public virtual double CalculateEstimatedHours(Job job)
     {
         return CalculateEstimatedHoursInternal(job.Category, job.ManufactureYear, job.Severity);
     }
 
-    public double CalculateEstimatedHours(JobDTO jobDto)
+    public virtual double CalculateEstimatedHours(JobDTO jobDto)
     {
         return CalculateEstimatedHoursInternal(jobDto.Category, jobDto.ManufactureYear, jobDto.Severity);
     }

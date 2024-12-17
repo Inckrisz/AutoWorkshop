@@ -19,35 +19,7 @@ public class ClientsWithJobsController : ControllerBase
         _clientRepository = clientRepository;
     }
 
-    //// GET: api/ClientsWithJobs
-    //[HttpGet]
-    //public async Task<ActionResult<IEnumerable<ClientWithJobsDTO>>> GetClientsWithJobs()
-    //{
-    //    var clients = await _clientRepository.GetClientWithJobsAsync();
-    //    var clientWithJobsDtos = clients.Select(client => new ClientWithJobsDTO
-    //    {
-    //        ClientId = client.ClientId,
-    //        Name = client.Name,
-    //        Address = client.Address,
-    //        Email = client.Email,
-    //        Jobs = client.Jobs.Select(job => new JobDTO
-    //        {
-    //            JobId = job.JobId,
-    //            ClientId = job.ClientId,
-    //            LicensePlate = job.LicensePlate,
-    //            ManufactureYear = job.ManufactureYear,
-    //            Category = job.Category,
-    //            Description = job.Description,
-    //            Severity = job.Severity,
-    //            Status = job.Status,
-    //            EstimatedCost = job.EstimatedCost
-    //        }).ToList()
-    //    }).ToList();
-
-    //    return Ok(clientWithJobsDtos);
-    //}
-
-    // GET: api/ClientsWithJobs/{id}
+    
     [HttpGet("{id}")]
     public async Task<ActionResult<ClientWithJobsDTO>> GetClientWithJobs(int id)
     {

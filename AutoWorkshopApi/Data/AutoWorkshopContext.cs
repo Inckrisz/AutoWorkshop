@@ -13,9 +13,9 @@ public class AutoWorkshopContext : DbContext
     {
         // Kapcsolat beállítása
         modelBuilder.Entity<Job>()
-            .HasOne(j => j.Client)  // Kapcsolódik a Client entitáshoz
-            .WithMany(c => c.Jobs)  // Több Job tartozhat egy Clienthez
-            .HasForeignKey(j => j.ClientId)  // A Foreign Key a Job osztályban van
-            .OnDelete(DeleteBehavior.Cascade);  // Cascade törlés (opcionális)
+            .HasOne(j => j.Client)  
+            .WithMany(c => c.Jobs)  
+            .HasForeignKey(j => j.ClientId)  
+            .OnDelete(DeleteBehavior.Cascade);  
     }
 }
