@@ -36,6 +36,7 @@ else
                     <td>@client.Address</td>
                     <td>@client.Email</td>
                     <td>
+                        <button class="btn btn-primary btn-sm" @onclick="() => ViewUpdate(client.ClientId)">Update</button>
                         <button class="btn btn-primary btn-sm" @onclick="() => ViewDetails(client.ClientId)">Részletek</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteClient(client.ClientId)">Törlés</button>
                     </td>
@@ -44,11 +45,21 @@ else
         </tbody>
     </table>
 
-
+    <button class="btn btn-primary btn-sm" @onclick="() => ViewAdd()">Add</button>
 }
 
 @code {
     private List<ClientDTO>? clients;
+
+    private void ViewUpdate(int clientId)
+    {
+        NavigationManager.NavigateTo($"/clients/update/{clientId}");
+    }
+
+    private void ViewAdd()
+    {
+        NavigationManager.NavigateTo($"/clients/add");
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -62,6 +73,11 @@ else
             Console.Error.WriteLine($"Error fetching clients: {ex.Message}");
         }
     }
+
+    // private void Update(int clientId)
+    // {
+    //     NavigationManager.NavigateTo($"/clients/update");
+    // }
 
     private void ViewDetails(int clientId)
     {

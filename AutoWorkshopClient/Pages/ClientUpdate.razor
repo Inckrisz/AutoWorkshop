@@ -1,0 +1,78 @@
+﻿@page "/clients/update/{clientId:int}"
+@using AutoWorkshop.AutoWorkshopClient.Services
+@using AutoWorkshop.Shared.DTOs
+@inject IClientService ClientService
+@inject NavigationManager NavigationManager
+
+<h3>Update Client</h3>
+
+@if (currentClient == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <EditForm Model="@currentClient" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="Name">Name</label>
+            <InputText id="Name" class="form-control" @bind-Value="currentClient.Name" />
+        </div>
+
+        <div class="form-group">
+            <label for="Address">Address</label>
+            <InputText id="Address" class="form-control" @bind-Value="currentClient.Address" />
+        </div>
+
+        <div class="form-group">
+            <label for="Email">Email</label>
+            <InputText id="Email" class="form-control" @bind-Value="currentClient.Email" />
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Update Client</button>
+            <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public int clientId { get; set; }
+
+    private ClientDTO? currentClient;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            currentClient = await ClientService.GetByIdAsync(clientId);
+        }
+        catch (Exception ex)
+        {
+            // Handle error (e.g., show a message)
+            Console.Error.WriteLine($"Error loading client: {ex.Message}");
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            await ClientService.UpdateAsync(currentClient!);
+            NavigationManager.NavigateTo("/clients");
+        }
+        catch (Exception ex)
+        {
+            // Handle error (e.g., show a message)
+            Console.Error.WriteLine($"Error updating client: {ex.Message}");
+        }
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/clients");
+    }
+}

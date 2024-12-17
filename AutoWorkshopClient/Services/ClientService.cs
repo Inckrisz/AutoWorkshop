@@ -18,6 +18,11 @@ public class ClientService : IClientService
         return await _httpClient.GetFromJsonAsync<List<ClientDTO>>("clients");
     }
 
+    public async Task<ClientDTO> GetByIdAsync(int clientId)
+    {
+        return await _httpClient.GetFromJsonAsync<ClientDTO>($"clients/{clientId}");
+    }
+
     public async Task<ClientWithJobsDTO> GetWithJobsAsync(int clientId)
     {
         return await _httpClient.GetFromJsonAsync<ClientWithJobsDTO>($"clients/{clientId}/jobs");

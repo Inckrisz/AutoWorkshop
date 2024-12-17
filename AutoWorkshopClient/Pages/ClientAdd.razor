@@ -1,0 +1,47 @@
+﻿@page "/clients/add"
+@using AutoWorkshop.AutoWorkshopClient.Services
+@using AutoWorkshop.Shared.DTOs
+@inject IClientService ClientService
+@inject NavigationManager NavigationManager
+
+<h3>Add Client</h3>
+
+<EditForm Model="@currentClient" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <InputText id="Name" class="form-control" @bind-Value="currentClient.Name" />
+    </div>
+
+    <div class="form-group">
+        <label for="Address">Address</label>
+        <InputText id="Address" class="form-control" @bind-Value="currentClient.Address" />
+    </div>
+
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <InputText id="Email" class="form-control" @bind-Value="currentClient.Email" />
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">Add Client</button>
+        <button class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    private ClientDTO currentClient = new ClientDTO();
+
+    private async Task HandleValidSubmit()
+    {
+        await ClientService.AddAsync(currentClient);
+        NavigationManager.NavigateTo("/clients");
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/clients");
+    }
+}
