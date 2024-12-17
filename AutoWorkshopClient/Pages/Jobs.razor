@@ -1,0 +1,130 @@
+﻿@page "/jobs"
+@using AutoWorkshop.AutoWorkshopClient.Services
+@using AutoWorkshop.Shared.DTOs
+@inject IJobService JobService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+<h3>Jobs</h3>
+
+@if (jobs == null)
+
+{
+    <p><em>Loading...</em></p>
+}
+
+else if (!jobs.Any())
+
+{
+    <p>No jobs available.</p>
+}
+
+else
+
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Client Id</th>
+                <th>Rendszám</th>
+                <th>Gyártás éve</th>
+                <th>Kategória</th>
+                <th>Leírás</th>
+                <th>Súlyosság</th>
+                <th>Állapot</th>
+                <th>Várható Idő</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var job in jobs)
+
+            {
+                <tr>
+                    <td>@job.JobId</td>
+                    <td>@job.ClientId</td>
+                    <td>@job.LicensePlate</td>
+                    <td>@job.ManufactureYear</td>
+                    <td>@job.Category</td>
+                    <td>@job.Description</td>
+                    <td>@job.Severity</td>
+                    <td>@job.Status</td>
+                    <td>@job.EstimatedCost</td>
+                    
+                    <td>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteJob(job.JobId)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<JobDTO>? jobs;
+
+
+
+    protected override async Task OnInitializedAsync()
+
+    {
+
+        try
+
+        {
+
+            jobs = await JobService.GetAllAsync();
+
+        }
+
+        catch (Exception ex)
+
+        {
+
+            // Handle error (e.g., show a message)
+
+            Console.Error.WriteLine($"Error fetching jobs: {ex.Message}");
+
+        }
+
+    }
+
+
+
+
+
+    private async Task DeleteJob(int jobId)
+
+    {
+
+        string v = $"Are you sure you want to delete job {jobId}?";
+
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", new object[] { v });
+
+        if (confirm)
+
+        {
+
+            try
+
+            {
+
+                await JobService.DeleteAsync(jobId);
+
+                jobs = await JobService.GetAllAsync(); // Refresh job list
+
+            }
+
+            catch (Exception ex)
+
+            {
+
+                Console.Error.WriteLine($"Error deleting job: {ex.Message}");
+
+            }
+
+        }
+
+    }
+}

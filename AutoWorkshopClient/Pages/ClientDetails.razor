@@ -1,0 +1,86 @@
+﻿@page "/clients/{Id:int}"
+@using AutoWorkshop.Shared.DTOs
+@using AutoWorkshop.AutoWorkshopClient.Services
+@inject IClientsWithJobsService ClientsWithJobsService
+@inject NavigationManager NavigationManager
+
+<h3>Client Details</h3>
+
+@if (_clientswjobs is not null && !_errored)
+{
+    <h4>@_clientswjobs.Name</h4>
+    <p><strong>Client ID:</strong> @_clientswjobs.ClientId</p>
+    <p><strong>Address:</strong> @_clientswjobs.Address</p>
+    <p><strong>Email:</strong> @_clientswjobs.Email</p>
+
+    <h5>Associated Jobs</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Job ID</th>
+                <th>Rendszám</th>
+                <th>Gyártás éve</th>
+                <th>Kategória</th>
+                <th>Leírás</th>
+                <th>Súlyosság</th>
+                <th>Állapot</th>
+                <th>Várható Idő</th>
+                <th>Actions</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var job in _clientswjobs.Jobs)
+            {
+                <tr>
+                    <td>@job.JobId</td>
+                    <td>@job.LicensePlate</td>
+                    <td>@job.ManufactureYear</td>
+                    <td>@job.Category</td>
+                    <td>@job.Description</td>
+                    <td>@job.Severity</td>
+                    <td>@job.Status</td>
+                    <td>@job.EstimatedCost</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button class="btn btn-primary btn-sm" @onclick="() => BackToClients()">Vissza</button>
+}
+else if (_errored)
+{
+    <div class="alert alert-danger">
+        Client with jobs not found.
+    </div>
+}
+else
+{
+    <p>Loading...</p>
+}
+
+@code {
+    private bool _errored = false;
+    private ClientWithJobsDTO _clientswjobs;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _clientswjobs = await ClientsWithJobsService.GetClientWithJobsAsync(Id);
+        }
+        catch (Exception)
+        {
+            _errored = true;
+        }
+    }
+    private void BackToClients()
+    {
+        NavigationManager.NavigateTo($"/clients");
+    }
+}

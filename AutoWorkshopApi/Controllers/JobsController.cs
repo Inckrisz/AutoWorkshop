@@ -9,14 +9,14 @@ using AutoWorkshop.Shared.Enums;
 
 namespace AutoWorkshopApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("jobs")]
     [ApiController]
-    public class JobController : ControllerBase
+    public class JobsController : ControllerBase
     {
         private readonly IJobRepository _jobRepository;
         private readonly JobEstimationService _jobEstimationService;
 
-        public JobController(IJobRepository jobRepository, JobEstimationService jobEstimationService)
+        public JobsController(IJobRepository jobRepository, JobEstimationService jobEstimationService)
         {
             _jobRepository = jobRepository;
             _jobEstimationService = jobEstimationService;
@@ -44,7 +44,7 @@ namespace AutoWorkshopApi.Controllers
                 Description = job.Description,
                 Severity = job.Severity,
                 Status = job.Status.ToString(),
-                EstimatedCost = (decimal?)_jobEstimationService.CalculateEstimatedHours(job)
+                EstimatedCost = _jobEstimationService.CalculateEstimatedHours(job)
             }).ToList();
 
             return Ok(jobDTOs);
@@ -72,7 +72,7 @@ namespace AutoWorkshopApi.Controllers
                 Description = job.Description,
                 Severity = job.Severity,
                 Status = job.Status.ToString(),
-                EstimatedCost = (decimal?)_jobEstimationService.CalculateEstimatedHours(job)
+                EstimatedCost = _jobEstimationService.CalculateEstimatedHours(job)
             }).ToList();
 
             return Ok(jobDTOs);
@@ -93,8 +93,8 @@ namespace AutoWorkshopApi.Controllers
                 return BadRequest($"Invalid category value: {jobDTO.Category}");
             }
 
-            if (!Enum.TryParse<JobStatus>(jobDTO.Status, ignoreCase: true, out var status))
-            {
+            if (!Enum.TryParse<JobStatus>(jobDTO.Status, ignoreCase: true, out var status) || status != JobStatus.FelvettMunka)
+            { 
                 return BadRequest($"Invalid status value: {jobDTO.Status}");
             }
 
@@ -107,13 +107,16 @@ namespace AutoWorkshopApi.Controllers
                 Category = category.ToString(),
                 Description = jobDTO.Description,
                 Severity = jobDTO.Severity,
-                Status = status
+
+                Status = JobStatus.FelvettMunka
                 // No EstimatedCost here, as it's only needed in the DTO
             };
+            job.UpdateStatus(status);
+
 
             // Calculate the EstimatedCost and assign it to the DTO
             jobDTO.JobId = job.JobId;
-            jobDTO.EstimatedCost = (decimal?)_jobEstimationService.CalculateEstimatedHours(job);
+            jobDTO.EstimatedCost = _jobEstimationService.CalculateEstimatedHours(job);
 
             await _jobRepository.AddAsync(job);
             await _jobRepository.SaveChangesAsync();
@@ -129,23 +132,17 @@ namespace AutoWorkshopApi.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<JobDTO>> UpdateJob(int id, JobDTO jobDTO)
         {
-            // Validate the request
             if (id != jobDTO.JobId || !ModelState.IsValid)
             {
                 return BadRequest("Invalid job data.");
             }
 
-            // Check if the new ClientId exists in the database
-            //var clientExists = await _clientRepository.ExistsAsync(jobDTO.ClientId);
-            //if (!clientExists)
-            //{
-            //    return BadRequest($"Client with ID {jobDTO.ClientId} does not exist.");
-            //}
-
-            if (!Enum.TryParse<JobStatus>(jobDTO.Status, ignoreCase: true, out var status))
+            // Validate JobStatus
+            if (!Enum.TryParse<JobStatus>(jobDTO.Status, ignoreCase: true, out var newStatus))
             {
                 return BadRequest($"Invalid status value: {jobDTO.Status}");
             }
+
             // Fetch the existing job
             var job = await _jobRepository.GetByIdAsync(id);
             if (job == null)
@@ -153,39 +150,36 @@ namespace AutoWorkshopApi.Controllers
                 return NotFound($"Job with ID {id} not found.");
             }
 
-            // Update all fields with values from the DTO
-            job.JobId = jobDTO.JobId; // Allow JobId change if explicitly required
+            // Validate status transition
+            if (!IsValidStatusTransition(job.Status, newStatus))
+            {
+                return BadRequest($"Invalid status transition from '{job.Status}' to '{newStatus}'.");
+            }
+
+            // Update job fields
             job.ClientId = jobDTO.ClientId;
             job.LicensePlate = jobDTO.LicensePlate;
             job.ManufactureYear = jobDTO.ManufactureYear;
             job.Category = jobDTO.Category;
             job.Description = jobDTO.Description;
             job.Severity = jobDTO.Severity;
-            job.Status = status;
+            job.Status = newStatus;
 
-            // Save the updated job to the database
+            // Save the updated job
             _jobRepository.Update(job);
             await _jobRepository.SaveChangesAsync();
 
-            // Calculate the EstimatedCost based on the updated job details
-            var updatedJobDTO = new JobDTO
-            {
-                JobId = job.JobId,
-                ClientId = job.ClientId,
-                LicensePlate = job.LicensePlate,
-                ManufactureYear = job.ManufactureYear,
-                Category = job.Category,
-                Description = job.Description,
-                Severity = job.Severity,
-                Status = job.Status.ToString(),
-                EstimatedCost = (decimal?)_jobEstimationService.CalculateEstimatedHours(jobDTO)
-            };
-
             // Return the updated job details
-            return Ok(updatedJobDTO);
+            jobDTO.EstimatedCost = _jobEstimationService.CalculateEstimatedHours(job);
+            return Ok(jobDTO);
         }
 
-
+        // Helper method to validate status transitions
+        private bool IsValidStatusTransition(JobStatus currentStatus, JobStatus newStatus)
+        {
+            return (currentStatus == JobStatus.FelvettMunka && newStatus == JobStatus.ElvegzesAlatt) ||
+                   (currentStatus == JobStatus.ElvegzesAlatt && newStatus == JobStatus.Befejezett);
+        }
 
 
 

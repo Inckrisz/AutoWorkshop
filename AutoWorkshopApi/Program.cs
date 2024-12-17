@@ -29,6 +29,9 @@ namespace AutoWorkshopApi
             builder.Services.AddScoped<IClientRepository, ClientRepository>();
             builder.Services.AddScoped<IJobRepository, JobRepository>();
 
+            
+
+
 
             builder.Services.AddCors(options =>
             {
@@ -41,6 +44,8 @@ namespace AutoWorkshopApi
             });
 
             var app = builder.Build();
+
+            
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -57,6 +62,8 @@ namespace AutoWorkshopApi
             app.MapControllers();
 
             app.Run();
+
+           
         }
 
 

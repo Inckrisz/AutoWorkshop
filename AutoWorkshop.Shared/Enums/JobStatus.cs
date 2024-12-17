@@ -4,5 +4,5 @@ public enum JobStatus
 {
     FelvettMunka,    // Függőben
     ElvegzesAlatt,// Folyamatban
-    Befejezett  // Befejezve   // Törölve
+    Befejezett  // Befejezve   
 }

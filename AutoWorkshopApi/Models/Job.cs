@@ -2,10 +2,12 @@
 
 using AutoWorkshop.Shared.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Job
 {
     [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int JobId { get; set; }  // Automatikusan generált ID
 
     [Required]

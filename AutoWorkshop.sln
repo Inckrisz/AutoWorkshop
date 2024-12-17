@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoWorkshopClient", "AutoW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoWorkshop.Shared", "AutoWorkshop.Shared\AutoWorkshop.Shared.csproj", "{C200353B-5654-410A-8616-F7FA699BB08B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoWorkshop.Tests", "AutoWorkshop.Tests\AutoWorkshop.Tests.csproj", "{E9E1E09F-CB5A-4EAC-A740-9AA279A01A2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoWorkshop.Tests", "AutoWorkshop.Tests\AutoWorkshop.Tests.csproj", "{E9E1E09F-CB5A-4EAC-A740-9AA279A01A2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

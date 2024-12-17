@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoWorkshopApi.Controllers;
 
-[Route("api/[controller]")]
+[Route("clients")]
 [ApiController]
 public class ClientsController : ControllerBase
 {
@@ -73,7 +73,7 @@ public class ClientsController : ControllerBase
         };
 
 
-
+         
 
 
 

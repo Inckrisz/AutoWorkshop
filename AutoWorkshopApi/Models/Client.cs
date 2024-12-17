@@ -1,8 +1,10 @@
 ﻿namespace AutoWorkshopApi.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Client
 {
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int ClientId { get; set; }
 
     [Required(ErrorMessage = "Name is required.")]

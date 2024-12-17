@@ -15,6 +15,9 @@ public class JobEstimationService
 
     private double CalculateEstimatedHoursInternal(string category, int manufactureYear, int severity)
     {
+        int year = DateTime.Now.Year - manufactureYear;
+        
+
         double categoryMultiplier = category switch
         {
             "Karosszéria" => 3,
@@ -24,7 +27,7 @@ public class JobEstimationService
             _ => 0
         };
 
-        double ageMultiplier = manufactureYear switch
+        double ageMultiplier = year switch
         {
             <= 5 => 0.5,
             <= 10 => 1,

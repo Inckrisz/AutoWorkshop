@@ -33,5 +33,5 @@ public class JobDTO
     [EnumDataType(typeof(JobStatus))]
     public String Status { get; set; }
 
-    public decimal? EstimatedCost { get; set; }
+    public double EstimatedCost { get; set; }
 }

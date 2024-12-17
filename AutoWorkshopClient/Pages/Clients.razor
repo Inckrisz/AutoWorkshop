@@ -1,53 +1,88 @@
-﻿@* @inject HttpClient Http
-@page "/clients"
-@using AutoWorkshop.Shared.Models
+﻿@page "/clients"
+@using AutoWorkshop.AutoWorkshopClient.Services
+@using AutoWorkshop.Shared.DTOs
+@inject IClientService ClientService
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
 <h3>Clients</h3>
 
-<!-- HTML Table to Display Clients -->
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Address</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var client in clients)
-        {
+@if (clients == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!clients.Any())
+{
+    <p>No clients available.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>@client.Name</td>
-                <td>@client.Address</td>
-                <td>@client.Email</td>
+                <th>Client ID</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var client in clients)
+            {
+                <tr>
+                    <td>@client.ClientId</td>
+                    <td>@client.Name</td>
+                    <td>@client.Address</td>
+                    <td>@client.Email</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" @onclick="() => ViewDetails(client.ClientId)">Részletek</button>
+                        <button class="btn btn-danger btn-sm" @onclick="() => DeleteClient(client.ClientId)">Törlés</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+}
 
 @code {
-    private List<Client> clients = new();
+    private List<ClientDTO>? clients;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            // Make sure you're using the correct API URL here
-            clients = await Http.GetFromJsonAsync<List<Client>>("https://localhost:5001/api/clients");
-
-            if (clients == null || clients.Count == 0)
-            {
-                Console.WriteLine("No clients found");
-            }
-            else
-            {
-                Console.WriteLine($"Received {clients.Count} clients");
-            }
+            clients = await ClientService.GetAllAsync();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error fetching clients: {ex.Message}");
+            // Handle error (e.g., show a message)
+            Console.Error.WriteLine($"Error fetching clients: {ex.Message}");
+        }
+    }
+
+    private void ViewDetails(int clientId)
+    {
+        NavigationManager.NavigateTo($"/clients/{clientId}");
+    }
+
+    private async Task DeleteClient(int clientId)
+    {
+        string v = $"Are you sure you want to delete client {clientId}?";
+        var confirm = await JSRuntime.InvokeAsync<bool>("confirm", new object[] { v });
+        if (confirm)
+        {
+            try
+            {
+                await ClientService.DeleteAsync(clientId);
+                clients = await ClientService.GetAllAsync(); // Refresh client list
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Error deleting client: {ex.Message}");
+            }
         }
     }
 }
- *@
