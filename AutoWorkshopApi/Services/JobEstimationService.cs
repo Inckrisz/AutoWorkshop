@@ -16,6 +16,11 @@ public class JobEstimationService
     private double CalculateEstimatedHoursInternal(string category, int manufactureYear, int severity)
     {
         int year = DateTime.Now.Year - manufactureYear;
+
+        if (year < 0)
+        {
+            throw new ArgumentException("Manufacture year cannot be in the future.");
+        }
         
 
         double categoryMultiplier = category switch
