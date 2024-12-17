@@ -53,7 +53,7 @@ else
                     <td>@job.EstimatedCost</td>
                     
                     <td>
-                        <button class="btn btn-danger btn-sm" @onclick="() => UpdateJob(job.JobId)">Update</button>
+                        <button class="btn btn-primary btn-sm" @onclick="() => UpdateJob(job.JobId)">Update</button>
                         <button class="btn btn-danger btn-sm" @onclick="() => DeleteJob(job.JobId)">Delete</button>
                     </td>
                 </tr>
@@ -61,7 +61,8 @@ else
         </tbody>
     </table>
 
-    <button class="btn btn-danger btn-sm" @onclick="() => ViewAdd()">Add</button>
+    <button class="btn btn-primary btn-sm" @onclick="() => ViewAdd()">Add</button>
+    <button class="btn btn-primary btn-sm" @onclick="() => ExportToPDF(jobs)">Export To Pdf</button>
 }
 
 @code {
@@ -139,4 +140,65 @@ else
         }
 
     }
+
+    public async Task ExportToPDF(List<JobDTO> jobs)
+    {
+        using (var memoryStream = new MemoryStream())
+        {
+            // Initialize PdfWriter and PdfDocument
+            var writer = new iText.Kernel.Pdf.PdfWriter(memoryStream);
+            var pdf = new iText.Kernel.Pdf.PdfDocument(writer);
+            var document = new iText.Layout.Document(pdf);
+
+            // Add title
+            document.Add(new iText.Layout.Element.Paragraph("Job List").SetFontSize(20));
+
+            // Create table with headers
+            var table = new iText.Layout.Element.Table(9);
+            table.AddHeaderCell("Job ID");
+            table.AddHeaderCell("Client ID");
+            table.AddHeaderCell("License Plate");
+            table.AddHeaderCell("Manufacture Year");
+            table.AddHeaderCell("Category");
+            table.AddHeaderCell("Description");
+            table.AddHeaderCell("Severity");
+            table.AddHeaderCell("Status");
+            table.AddHeaderCell("Estimated Cost");
+
+            // Fill table with data
+            foreach (var job in jobs)
+            {
+                table.AddCell(job.JobId.ToString());
+                table.AddCell(job.ClientId.ToString());
+                table.AddCell(job.LicensePlate);
+                table.AddCell(job.ManufactureYear.ToString());
+                table.AddCell(job.Category);
+                table.AddCell(job.Description);
+                table.AddCell(job.Severity.ToString());
+                table.AddCell(job.Status);
+                table.AddCell(job.EstimatedCost.ToString());
+            }
+
+            // Add table to document
+            document.Add(table);
+            document.Close();
+            var fileBytes = memoryStream.ToArray();
+            var base64 = Convert.ToBase64String(fileBytes);
+            var fileName = "jobs.pdf";
+            try
+            {
+                // Trigger file download via JavaScript
+                await JSRuntime.InvokeVoidAsync("downloadFile", fileName, base64);
+                
+            }
+            catch (JSException)
+            {
+                Console.WriteLine("JavaScript function 'downloadFile' is not yet available.");
+            }
+        }
+    }
+
+    
+
+
 }
