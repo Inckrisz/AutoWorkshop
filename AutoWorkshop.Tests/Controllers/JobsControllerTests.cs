@@ -92,7 +92,7 @@ namespace AutoWorkshopApi.Tests
           
             var result = await _controller.DeleteJob(1);
 
-           ert
+           
             Assert.IsType<NotFoundObjectResult>(result);
         }
 
@@ -108,7 +108,7 @@ namespace AutoWorkshopApi.Tests
            
             var result = await _controller.UpdateJob(1, jobDTO);
 
-           
+            
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
             Assert.Contains("Invalid status transition", badRequestResult.Value.ToString());
         }

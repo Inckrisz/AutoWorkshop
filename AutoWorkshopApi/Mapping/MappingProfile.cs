@@ -25,7 +25,7 @@ namespace AutoWorkshopApi.Mapping
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Severity, opt => opt.MapFrom(src => src.Severity))
-                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status));
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status)); 
 
             CreateMap<Client, ClientWithJobsDTO>()
             .ForMember(dest => dest.ClientId, opt => opt.MapFrom(src => src.ClientId))
