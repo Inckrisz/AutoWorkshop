@@ -95,7 +95,7 @@ else
 
         {
 
-            // Handle error (e.g., show a message)
+            
 
             Console.Error.WriteLine($"Error fetching jobs: {ex.Message}");
 
@@ -125,7 +125,7 @@ else
 
                 await JobService.DeleteAsync(jobId);
 
-                jobs = await JobService.GetAllAsync(); // Refresh job list
+                jobs = await JobService.GetAllAsync();
 
             }
 
@@ -145,15 +145,15 @@ else
     {
         using (var memoryStream = new MemoryStream())
         {
-            // Initialize PdfWriter and PdfDocument
+            
             var writer = new iText.Kernel.Pdf.PdfWriter(memoryStream);
             var pdf = new iText.Kernel.Pdf.PdfDocument(writer);
             var document = new iText.Layout.Document(pdf);
 
-            // Add title
+            
             document.Add(new iText.Layout.Element.Paragraph("Job List").SetFontSize(20));
 
-            // Create table with headers
+           
             var table = new iText.Layout.Element.Table(9);
             table.AddHeaderCell("Job ID");
             table.AddHeaderCell("Client ID");
@@ -165,7 +165,7 @@ else
             table.AddHeaderCell("Status");
             table.AddHeaderCell("Estimated Cost");
 
-            // Fill table with data
+           
             foreach (var job in jobs)
             {
                 table.AddCell(job.JobId.ToString());
@@ -179,15 +179,16 @@ else
                 table.AddCell(job.EstimatedCost.ToString());
             }
 
-            // Add table to document
+            
             document.Add(table);
             document.Close();
             var fileBytes = memoryStream.ToArray();
             var base64 = Convert.ToBase64String(fileBytes);
             var fileName = "jobs.pdf";
+            
             try
             {
-                // Trigger file download via JavaScript
+                
                 await JSRuntime.InvokeVoidAsync("downloadFile", fileName, base64);
                 
             }

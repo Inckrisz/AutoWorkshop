@@ -17,7 +17,7 @@ public class ClientsController : ControllerBase
         _clientRepository = clientRepository;
     }
 
-    // GET: api/Client
+  
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ClientDTO>>> GetClients()
     {
@@ -34,7 +34,7 @@ public class ClientsController : ControllerBase
         return Ok(clientDtos);
     }
 
-    // GET: api/Client/{id}
+   
     [HttpGet("{id}")]
     public async Task<ActionResult<ClientDTO>> GetClient(int id)
     {
@@ -56,7 +56,7 @@ public class ClientsController : ControllerBase
         return Ok(clientDto);
     }
 
-    // POST: api/Client
+    
     [HttpPost]
     public async Task<ActionResult<ClientDTO>> CreateClient(ClientDTO clientDto)
     {
@@ -86,7 +86,7 @@ public class ClientsController : ControllerBase
         return CreatedAtAction(nameof(GetClient), new { id = client.ClientId }, clientDto);
     }
 
-    // PUT: api/Client/{id}
+    
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateClient(int id, ClientDTO clientDto)
     {
@@ -116,7 +116,7 @@ public class ClientsController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/Client/{id}
+    
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteClient(int id)
     {

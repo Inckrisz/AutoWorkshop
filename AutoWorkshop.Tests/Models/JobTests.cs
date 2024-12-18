@@ -9,7 +9,7 @@ public class JobUnitTests
     [Fact]
     public void ValidJob_JobValidation_IsValid()
     {
-        // Arrange
+    
         var job = new Job
         {
             ClientId = 1,
@@ -21,12 +21,11 @@ public class JobUnitTests
             Status = JobStatus.FelvettMunka
         };
 
-        // Act
+      
         var results = new List<ValidationResult>();
         var context = new ValidationContext(job, null, null);
         var result = Validator.TryValidateObject(job, context, results, true);
 
-        // Assert
         Assert.True(result);
         Assert.Empty(results);
     }
@@ -34,11 +33,11 @@ public class JobUnitTests
     [Fact]
     public void InvalidLicensePlate_JobValidation_Fails()
     {
-        // Arrange
+       
         var job = new Job
         {
             ClientId = 1,
-            LicensePlate = "INVALID", // Invalid license plate
+            LicensePlate = "INVALID", 
             ManufactureYear = 2020,
             Category = JobCategory.Karosszeria.ToString(),
             Description = "Fender damage",
@@ -46,45 +45,45 @@ public class JobUnitTests
             Status = JobStatus.FelvettMunka,
         };
 
-        // Act
+      
         var results = new List<ValidationResult>();
         var context = new ValidationContext(job, null, null);
         var result = Validator.TryValidateObject(job, context, results, true);
 
-        // Assert
-        Assert.False(result); // Validation should fail
+     
+        Assert.False(result);
         Assert.Contains(results, v => v.MemberNames.Contains("LicensePlate") && v.ErrorMessage.Contains("A rendszám formátuma XXX-YYY"));
     }
 
     [Fact]
     public void ManufactureYearBefore1900_JobValidation_Fails()
     {
-        // Arrange
+      
         var job = new Job
         {
             ClientId = 1,
             LicensePlate = "ABC-123",
-            ManufactureYear = 1899, // Invalid manufacture year
+            ManufactureYear = 1899, 
             Category = JobCategory.Karosszeria.ToString(),
             Description = "Fender damage",
             Severity = 5,
             Status = JobStatus.FelvettMunka,
         };
 
-        // Act
+       
         var results = new List<ValidationResult>();
         var context = new ValidationContext(job, null, null);
         var result = Validator.TryValidateObject(job, context, results, true);
 
-        // Assert
-        Assert.False(result); // Validation should fail
+      
+        Assert.False(result);
         Assert.Contains(results, v => v.MemberNames.Contains("ManufactureYear") && v.ErrorMessage.Contains("A gyártási év nem lehet kisebb 1900-nál"));
     }
 
     [Fact]
     public void InvalidSeverity_JobValidation_Fails()
     {
-        // Arrange
+        
         var job = new Job
         {
             ClientId = 1,
@@ -92,24 +91,24 @@ public class JobUnitTests
             ManufactureYear = 2020,
             Category = JobCategory.Karosszeria.ToString(),
             Description = "Fender damage",
-            Severity = 11, // Invalid severity
+            Severity = 11, 
             Status = JobStatus.FelvettMunka,
         };
 
-        // Act
+       
         var results = new List<ValidationResult>();
         var context = new ValidationContext(job, null, null);
         var result = Validator.TryValidateObject(job, context, results, true);
 
-        // Assert
-        Assert.False(result); // Validation should fail
+        
+        Assert.False(result); 
         Assert.Contains(results, v => v.MemberNames.Contains("Severity") && v.ErrorMessage.Contains("The field Severity must be between 1 and 10."));
     }
 
     [Fact]
     public void StatusTransition_ValidTransition_IsSuccessful()
     {
-        // Arrange
+        
         var job = new Job
         {
             ClientId = 1,
@@ -121,18 +120,18 @@ public class JobUnitTests
             Status = JobStatus.FelvettMunka,
         };
 
-        // Act
+      
         var result = job.UpdateStatus(JobStatus.ElvegzesAlatt);
 
-        // Assert
-        Assert.True(result); // Transition should succeed
+        
+        Assert.True(result); 
         Assert.Equal(JobStatus.ElvegzesAlatt, job.Status);
     }
 
     [Fact]
     public void StatusTransition_InvalidTransition_Fails()
     {
-        // Arrange
+        
         var job = new Job
         {
             ClientId = 1,
@@ -141,14 +140,14 @@ public class JobUnitTests
             Category = JobCategory.Karosszeria.ToString(),
             Description = "Fender damage",
             Severity = 5,
-            Status = JobStatus.Befejezett, // Already completed
+            Status = JobStatus.Befejezett, 
         };
 
-        // Act
+       
         var result = job.UpdateStatus(JobStatus.ElvegzesAlatt);
 
-        // Assert
-        Assert.False(result); // Transition should fail
-        Assert.Equal(JobStatus.Befejezett, job.Status); // Status should remain unchanged
+      
+        Assert.False(result); 
+        Assert.Equal(JobStatus.Befejezett, job.Status); 
     }
 }

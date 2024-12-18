@@ -36,7 +36,6 @@ namespace AutoWorkshopApi.Controllers
             }
         }
 
-        // GET: api/Client/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<ClientDTO>> GetJob(int id)
         {
@@ -63,7 +62,7 @@ namespace AutoWorkshopApi.Controllers
             return Ok(jobDTO);
         }
 
-        // GET: api/jobs
+       
         [HttpGet]
         public async Task<ActionResult<IEnumerable<JobDTO>>> GetJobs()
         {
@@ -74,7 +73,7 @@ namespace AutoWorkshopApi.Controllers
                 return NotFound("No jobs found.");
             }
 
-            // Map entities to DTOs
+            
             var jobDTOs = jobs.Select(job => new JobDTO
             {
                 JobId = job.JobId,
@@ -91,7 +90,7 @@ namespace AutoWorkshopApi.Controllers
             return Ok(jobDTOs);
         }
 
-        // GET: api/jobs/client/{clientId}
+        
         [HttpGet("client/{clientId}")]
         public async Task<ActionResult<IEnumerable<JobDTO>>> GetJobsByClientId(int clientId)
         {
@@ -102,7 +101,7 @@ namespace AutoWorkshopApi.Controllers
                 return NotFound($"No jobs found for client with ID {clientId}.");
             }
 
-            // Map entities to DTOs
+          
             var jobDTOs = jobs.Select(job => new JobDTO
             {
                 JobId = job.JobId,
@@ -119,7 +118,7 @@ namespace AutoWorkshopApi.Controllers
             return Ok(jobDTOs);
         }
 
-        // POST: api/jobs
+        
         [HttpPost]
         public async Task<ActionResult<JobDTO>> CreateJob(JobDTO jobDTO)
         {
@@ -128,7 +127,7 @@ namespace AutoWorkshopApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Use Enum.TryParse for safe parsing of the JobStatus and JobCategory enums
+           
             if (!Enum.TryParse<JobCategory>(jobDTO.Category, ignoreCase: true, out var category))
             {
                 return BadRequest($"Invalid category value: {jobDTO.Category}");
@@ -139,7 +138,7 @@ namespace AutoWorkshopApi.Controllers
                 return BadRequest($"Invalid status value: {jobDTO.Status}");
             }
 
-            // Map JobDTO to Job model, excluding the EstimatedCost
+           
             var job = new Job
             {
                 ClientId = jobDTO.ClientId,
@@ -150,7 +149,7 @@ namespace AutoWorkshopApi.Controllers
                 Severity = jobDTO.Severity,
 
                 Status = JobStatus.FelvettMunka
-                // No EstimatedCost here, as it's only needed in the DTO
+                
             };
             job.UpdateStatus(status);
 
@@ -160,18 +159,18 @@ namespace AutoWorkshopApi.Controllers
             await _jobRepository.AddAsync(job);
             await _jobRepository.SaveChangesAsync();
 
-            // Calculate the EstimatedCost and assign it to the DTO
+            
             jobDTO.JobId = job.JobId;
             jobDTO.EstimatedCost = _jobEstimationService.CalculateEstimatedHours(job);
 
 
 
-            // Return the created job as DTO
+           
             return CreatedAtAction(nameof(GetJobsByClientId), new { clientId = job.ClientId }, jobDTO);
         }
 
 
-        // PUT: api/jobs/{id}
+        
         [HttpPut("{id}")]
         public async Task<ActionResult<JobDTO>> UpdateJob(int id, JobDTO jobDTO)
         {
@@ -180,20 +179,20 @@ namespace AutoWorkshopApi.Controllers
                 return BadRequest("Invalid job data.");
             }
 
-            // Validate JobStatus
+           
             if (!Enum.TryParse<JobStatus>(jobDTO.Status, ignoreCase: true, out var newStatus))
             {
                 return BadRequest($"Invalid status value: {jobDTO.Status}");
             }
 
-            // Fetch the existing job
+           
             var job = await _jobRepository.GetByIdAsync(id);
             if (job == null)
             {
                 return NotFound($"Job with ID {id} not found.");
             }
 
-            // Validate status transition
+            
             if (job.Status != newStatus)
             {
                 bool statusUpdated = job.UpdateStatus(newStatus);
@@ -202,12 +201,9 @@ namespace AutoWorkshopApi.Controllers
                     return BadRequest($"Invalid status transition from '{job.Status}' to '{jobDTO.Status}'.");
                 }
             }
-            //if (!IsValidStatusTransition(job.Status, newStatus))
-            //{
-            //    return BadRequest($"Invalid status transition from '{job.Status}' to '{newStatus}'.");
-            //}
+           
 
-            // Update job fields
+            
             job.ClientId = jobDTO.ClientId;
             job.LicensePlate = jobDTO.LicensePlate;
             job.ManufactureYear = jobDTO.ManufactureYear;
@@ -216,16 +212,16 @@ namespace AutoWorkshopApi.Controllers
             job.Severity = jobDTO.Severity;
             job.Status = newStatus;
 
-            // Save the updated job
+           
             _jobRepository.Update(job);
             await _jobRepository.SaveChangesAsync();
 
-            // Return the updated job details
+           
             jobDTO.EstimatedCost = _jobEstimationService.CalculateEstimatedHours(job);
             return Ok(jobDTO);
         }
 
-        // Helper method to validate status transitions
+       
         private bool IsValidStatusTransition(JobStatus currentStatus, JobStatus newStatus)
         {
             return (currentStatus == JobStatus.FelvettMunka && newStatus == JobStatus.ElvegzesAlatt) ||
@@ -234,7 +230,7 @@ namespace AutoWorkshopApi.Controllers
 
 
 
-        // DELETE: api/jobs/{id}
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteJob(int id)
         {
@@ -248,7 +244,7 @@ namespace AutoWorkshopApi.Controllers
             _jobRepository.Delete(job);
             await _jobRepository.SaveChangesAsync();
 
-            return NoContent(); // Success, no content returned
+            return NoContent();
         }
     }
 }

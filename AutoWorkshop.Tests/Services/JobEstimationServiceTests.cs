@@ -22,7 +22,7 @@ public class JobEstimationServiceTests
     [InlineData("Invalid", 1995, 10, 0)]      // categoryMultiplier = 0
     public void CalculateEstimatedHours_WithJob_ReturnsCorrectValue(string category, int manufactureYear, int severity, double expected)
     {
-        // Arrange
+        
         var job = new Job
         {
             Category = category,
@@ -30,10 +30,10 @@ public class JobEstimationServiceTests
             Severity = severity
         };
 
-        // Act
+       
         var result = _service.CalculateEstimatedHours(job);
 
-        // Assert
+       
         Assert.Equal(expected, result, 2); // Tolerance for floating-point comparison
     }
 
@@ -42,7 +42,7 @@ public class JobEstimationServiceTests
     [Fact]
     public void CalculateEstimatedHours_WithInvalidCategory_ReturnsZero()
     {
-        // Arrange
+        
         var job = new Job
         {
             Category = "Invalid",
@@ -50,17 +50,17 @@ public class JobEstimationServiceTests
             Severity = 5
         };
 
-        // Act
+        
         var result = _service.CalculateEstimatedHours(job);
 
-        // Assert
+       
         Assert.Equal(0, result);
     }
 
     [Fact]
     public void CalculateEstimatedHours_WithFutureYear_ThrowsException()
     {
-        // Arrange
+        
         var job = new Job
         {
             Category = "Karosszéria",
@@ -68,7 +68,7 @@ public class JobEstimationServiceTests
             Severity = 5
         };
 
-        // Act & Assert
+        
         Assert.Throws<ArgumentException>(() => _service.CalculateEstimatedHours(job));
     }
 }

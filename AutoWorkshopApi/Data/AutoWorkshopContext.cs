@@ -11,7 +11,7 @@ public class AutoWorkshopContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Kapcsolat beállítása
+       
         modelBuilder.Entity<Job>()
             .HasOne(j => j.Client)  
             .WithMany(c => c.Jobs)  

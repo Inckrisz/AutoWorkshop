@@ -26,7 +26,7 @@ namespace AutoWorkshopApi.Tests.Repositories
         [Fact]
         public async Task GetJobsByClientIdAsync_ReturnsJobs_WhenClientHasJobs()
         {
-            // Arrange
+          
             var context = GetInMemoryDbContext();
             var client = new Client
             {
@@ -65,10 +65,10 @@ namespace AutoWorkshopApi.Tests.Repositories
 
             var repository = new JobRepository(context);
 
-            // Act
+           
             var result = await repository.GetJobsByClientIdAsync(client.ClientId);
 
-            // Assert
+           
             Assert.NotNull(result);
             Assert.Equal(2, result.Count());
             Assert.Contains(result, j => j.LicensePlate == "ABC-123");
@@ -78,7 +78,7 @@ namespace AutoWorkshopApi.Tests.Repositories
         [Fact]
         public async Task GetJobsByClientIdAsync_ReturnsEmpty_WhenClientHasNoJobs()
         {
-            // Arrange
+           
             var context = GetInMemoryDbContext();
             var client = new Client
             {
@@ -92,10 +92,10 @@ namespace AutoWorkshopApi.Tests.Repositories
 
             var repository = new JobRepository(context);
 
-            // Act
+           
             var result = await repository.GetJobsByClientIdAsync(client.ClientId);
 
-            // Assert
+          
             Assert.NotNull(result);
             Assert.Empty(result);
         }
@@ -103,14 +103,14 @@ namespace AutoWorkshopApi.Tests.Repositories
         [Fact]
         public async Task GetJobsByClientIdAsync_ReturnsEmpty_WhenClientDoesNotExist()
         {
-            // Arrange
+            
             var context = GetInMemoryDbContext();
             var repository = new JobRepository(context);
 
-            // Act
+            
             var result = await repository.GetJobsByClientIdAsync(999);
 
-            // Assert
+            
             Assert.NotNull(result);
             Assert.Empty(result);
         }

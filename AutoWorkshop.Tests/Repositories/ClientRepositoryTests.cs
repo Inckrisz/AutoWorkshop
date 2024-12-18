@@ -24,7 +24,7 @@ namespace AutoWorkshopApi.Tests.Repositories
         [Fact]
         public async Task GetClientWithJobsAsync_ReturnsClientWithJobs_WhenClientExists()
         {
-            // Arrange
+           
             var context = GetInMemoryDbContext();
             var client = new Client
             {
@@ -49,10 +49,10 @@ namespace AutoWorkshopApi.Tests.Repositories
 
             var repository = new ClientRepository(context);
 
-            // Act
+            
             var result = await repository.GetClientWithJobsAsync(client.ClientId);
 
-            // Assert
+         
             Assert.NotNull(result);
             Assert.Equal(client.ClientId, result!.ClientId);
             Assert.Single(result.Jobs);
@@ -62,14 +62,14 @@ namespace AutoWorkshopApi.Tests.Repositories
         [Fact]
         public async Task GetClientWithJobsAsync_ReturnsNull_WhenClientDoesNotExist()
         {
-            // Arrange
+            
             var context = GetInMemoryDbContext();
             var repository = new ClientRepository(context);
 
-            // Act
+            
             var result = await repository.GetClientWithJobsAsync(999);
 
-            // Assert
+            
             Assert.Null(result);
         }
     }

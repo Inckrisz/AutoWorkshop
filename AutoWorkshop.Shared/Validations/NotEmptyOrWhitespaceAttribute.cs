@@ -7,9 +7,9 @@ public class NotEmptyOrWhitespaceAttribute : ValidationAttribute
     {
         if (value is string str)
         {
-            return !string.IsNullOrWhiteSpace(str); // returns true if not null, empty, or whitespace
+            return !string.IsNullOrWhiteSpace(str);
         }
-        return true; // If the value is not a string, it's considered valid
+        return true; 
     }
 
     public override string FormatErrorMessage(string name)
