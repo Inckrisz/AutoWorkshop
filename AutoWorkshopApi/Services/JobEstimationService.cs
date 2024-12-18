@@ -50,6 +50,6 @@ public class JobEstimationService
             _ => 0
         };
 
-        return categoryMultiplier * ageMultiplier * severityMultiplier;
+        return Math.Round(categoryMultiplier * ageMultiplier * severityMultiplier,2);
     }
 }
