@@ -61,6 +61,7 @@ kategória * kor súlyozás * hiba súlyosság súlyozás
 - Munka állapota (Felvett -> Elvégzés alatt -> Befejezett)
 
 ## Telepítés és futtatás
+
 1. **Projekt klónozása:**
    ```sh
    git clone https://github.com/Inckrisz/AutoWorkshop.git
@@ -68,27 +69,41 @@ kategória * kor súlyozás * hiba súlyosság súlyozás
    ```
 
 2. **Backend futtatása:**
+   Navigálj a backend könyvtárba, és telepítsd a szükséges csomagokat:
+
+   ```sh
+   cd AutoWorkshop.API
+   dotnet restore
+   ```
+   Ez letölti az összes szükséges NuGet csomagot.
+   
+   Futtatás előtt migráld az adatbázist (SQLite):
+   
+   ```sh
+   dotnet ef database update
+   ```
+   Majd indítsd el a szervert:
+   
+   ```sh
+   dotnet run
+   ```
    ```sh
    cd AutoWorkshop.API
    dotnet run
    ```
 
 3. **Frontend futtatása:**
+   Nyiss egy új terminált, majd navigálj a frontend mappába:
+
    ```sh
+   cd ../AutoWorkshop.Blazor
+   dotnet restore
+   ```
+   Indítsd el a Blazor klienst:
+    ```sh
    cd AutoWorkshop.Blazor
    dotnet run
    ```
-
-4. **Alkalmazás elérése:**
-   - API: `https://localhost:5001`
-   - Blazor UI: `https://localhost:5002`
-
-## Tesztelés
-Unit tesztek futtatása:
-```sh
-cd AutoWorkshop.Tests
-dotnet test
-```
 
 ## Licenc
 MIT
