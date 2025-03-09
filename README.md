@@ -1,4 +1,4 @@
-# AutoWorkshop
+# Autószerelő műhely
 
 Ez egy egyetemi C# projekt, amely egy autószerelő műhely munkáinak nyilvántartását kezeli. A projekt egy .NET 8 alapú Web API-t és egy Blazor WebAssembly klienst tartalmaz.
 
@@ -101,6 +101,9 @@ kategória * kor súlyozás * hiba súlyosság súlyozás
    cd AutoWorkshop.Blazor
    dotnet run
    ```
+
+
+# AutoWorkshop
 
 This is a university C# project that manages the records of a car repair workshop. The project consists of a .NET 8-based Web API and a Blazor WebAssembly client.
 
