@@ -83,10 +83,7 @@ kategória * kor súlyozás * hiba súlyosság súlyozás
    dotnet ef database update
    ```
    Majd indítsd el a szervert:
-   
-   ```sh
-   dotnet run
-   ```
+
    ```sh
    cd AutoWorkshop.API
    dotnet run
@@ -102,6 +99,106 @@ kategória * kor súlyozás * hiba súlyosság súlyozás
    Indítsd el a Blazor klienst:
     ```sh
    cd AutoWorkshop.Blazor
+   dotnet run
+   ```
+
+This is a university C# project that manages the records of a car repair workshop. The project consists of a .NET 8-based Web API and a Blazor WebAssembly client.
+
+## Technology Stack
+- **Backend**: ASP.NET Core Web API (.NET 8)
+- **Frontend**: Blazor WebAssembly
+- **Database**: SQLite (Entity Framework Core)
+- **Version Control**: Git (GitHub)
+- **Unit Testing**: xUnit (for Web API service testing)
+
+## Key Features
+- CRUD operations for customers
+- CRUD operations for repair jobs
+- Listing repair jobs related to customers
+- Automatic work hour estimation
+- Data validation on both frontend and backend
+- Tracking job status (Registered -> In Progress -> Completed)
+
+## Work Hour Calculation
+Work hours are calculated using the following formula:
+```plaintext
+category * age weight * issue severity weight
+```
+
+**Categories and Base Work Hours:**
+- Bodywork: 3 hours
+- Engine: 8 hours
+- Chassis: 6 hours
+- Braking System: 4 hours
+
+**Age Weighting:**
+- 0-5 years: 0.5
+- 5-10 years: 1
+- 10-20 years: 1.5
+- 20+ years: 2
+
+**Issue Severity Weighting (Scale 1-10):**
+- 1-2: 0.2
+- 3-4: 0.4
+- 5-7: 0.6
+- 8-9: 0.8
+- 10: 1
+
+## Data Model
+
+### Customer
+- Customer ID (auto-generated)
+- Name
+- Address
+- Email (validation: must be a valid email format)
+
+### Job
+- Job ID (auto-generated)
+- Customer ID
+- Vehicle License Plate (format: XXX-YYY)
+- Vehicle Manufacturing Year (minimum: 1900)
+- Job Category (Bodywork, Engine, Chassis, Braking System)
+- Issue Description
+- Issue Severity (scale 1-10)
+- Job Status (Registered -> In Progress -> Completed)
+
+## Installation and Running
+
+1. **Clone the project:**
+   ```sh
+   git clone https://github.com/Inckrisz/AutoWorkshop.git
+   cd AutoWorkshop
+   ```
+
+2. **Run the backend:**
+   Navigate to the backend directory and install dependencies:
+
+   ```sh
+   cd AutoWorkshop.API
+   dotnet restore
+   ```
+   This will download all required NuGet packages.
+   
+   Before running, migrate the database (SQLite):
+   
+   ```sh
+   dotnet ef database update
+   ```
+   Then, start the server:
+   
+   ```sh
+   dotnet run
+   ```
+
+3. **Run the frontend:**
+   Open a new terminal and navigate to the frontend directory:
+
+   ```sh
+   cd ../AutoWorkshop.Blazor
+   dotnet restore
+   ```
+   Start the Blazor client:
+   ```sh
    dotnet run
    ```
 
