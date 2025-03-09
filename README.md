@@ -210,4 +210,4 @@ MIT
 
 ---
 
-**Fejlesztő**: [Krisz](https://github.com/Inckrisz)
+**Fejlesztő**: [Incze Krisztián Imre](https://github.com/Inckrisz)
